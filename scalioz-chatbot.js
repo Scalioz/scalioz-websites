@@ -238,7 +238,7 @@ STYLE: Concise (2–4 sentences max). Warm and professional. 1–2 emojis max. R
     inp.value = ''; inp.style.height = 'auto';
     userMsg(text); showTyping();
 
-    if (!GEMINI_API_KEY || GEMINI_API_KEY === 'AIzaSyD33kOvhCXpUKfiDjnxy2fKShcqw84qKuE') {
+    if (!GEMINI_API_KEY || GEMINI_API_KEY === 'YOUR_GEMINI_API_KEY_HERE') {
       stopTyping(); busy = false; sendBtn.disabled = false;
       botMsg("Add your free Gemini API key in scalioz-chatbot.js to enable AI. Get it free at aistudio.google.com 😊");
       setTimeout(showWaCta, 600);
@@ -283,6 +283,7 @@ STYLE: Concise (2–4 sentences max). Warm and professional. 1–2 emojis max. R
   inp.addEventListener('input', () => { inp.style.height='auto'; inp.style.height=Math.min(inp.scrollHeight,88)+'px'; });
   setTimeout(() => { if(!open){badge.textContent='1';badge.style.display='flex';} }, 8000);
 })();
+
 
 
 
