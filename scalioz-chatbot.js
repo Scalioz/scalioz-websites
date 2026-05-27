@@ -11,7 +11,7 @@
   // Get it FREE at: https://aistudio.google.com/app/apikey
   const GEMINI_API_KEY = 'AIzaSyD33kOvhCXpUKfiDjnxy2fKShcqw84qKuE';
   const WA_NUMBER = '919043616100';
-  const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`;
+  const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
 
   const SYSTEM_PROMPT = `You are Scalioz AI — the intelligent sales consultant for Scalioz Systems, a Chennai-based digital company. You serve TWO product lines:
 
@@ -283,6 +283,7 @@ STYLE: Concise (2–4 sentences max). Warm and professional. 1–2 emojis max. R
   inp.addEventListener('input', () => { inp.style.height='auto'; inp.style.height=Math.min(inp.scrollHeight,88)+'px'; });
   setTimeout(() => { if(!open){badge.textContent='1';badge.style.display='flex';} }, 8000);
 })();
+
 
 
 
