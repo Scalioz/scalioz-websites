@@ -307,7 +307,7 @@
 <!-- NAVBAR -->
 <nav>
   <a class="nav-logo" href="/">
-    <img src="assets/scalioz-logo.png" alt="Scalioz" style="height:155px;width:auto;object-fit:contain;">
+    <img src="assets/scalioz-logo.png" alt="Scalioz" style="height:42px;" />
   </a>
   <a class="nav-cta" href="https://wa.me/919043616100?text=Hi%20Scalioz!%20I%20want%20a%20website%20built%20for%20my%20business." target="_blank" rel="noopener">💬 Get Your Website</a>
 </nav>
@@ -347,7 +347,7 @@
     <!-- ── AL MUMIN ── -->
     <div class="site-card" data-cat="travel">
       <div class="card-preview">
-        <img src="https://images.unsplash.com/photo-1519817914152-22d216bb9170?w=800&q=85" alt="Al Mumin Haj & Umrah Services Website" onerror="this.src='https://images.unsplash.com/photo-1519817914152-22d216bb9170?w=700&q=80'" />
+        <img src="https://api.microlink.io/?url=https://scalioz.github.io/almumin&screenshot=true&meta=false&embed=screenshot.url" alt="Al Mumin Haj & Umrah Services Website" onerror="this.src='https://images.unsplash.com/photo-1519817914152-22d216bb9170?w=700&q=80'" />
         <div class="card-preview-overlay"></div>
         <span class="card-cat-badge">✈️ Travel & Pilgrimage</span>
         <span class="card-new-badge">⭐ New</span>
