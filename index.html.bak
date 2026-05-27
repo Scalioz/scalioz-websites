@@ -351,7 +351,7 @@
         <div class="card-preview-overlay"></div>
         <span class="card-cat-badge">✈️ Travel & Pilgrimage</span>
         <span class="card-new-badge">⭐ New</span>
-        <a data-preview="true" class="card-preview-btn" href="https://scalioz.github.io/almumin/" target="_blank" rel="noopener">🔗 Live Preview →</a>
+        <a class="card-preview-btn" href="https://scalioz.github.io/almumin/" target="_blank" rel="noopener">🔗 Live Preview →</a>
       </div>
       <div class="card-body">
         <div class="card-industry">Haj & Umrah Services</div>
@@ -457,7 +457,7 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('filter-count').textContent = `Showing ${active} website`;
 });
 </script>
-<script src="scalioz-chatbot.js"></script>
+<script src="scalioz-chatbot.js"></script><script src="scalioz-chatbot.js"></script>
 <script src="lead-capture.js"></script>
 </body>
 </html>
