@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Scalioz Websites | Ready-to-Deploy Business Websites</title>
+  <meta name="description" content="Professional, ready-to-deploy websites built by Scalioz. Multilingual, SEO-optimised, fully customisable. Browse our portfolio and get your website today." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --navy: #0A1860;
+      --blue: #1A3CFF;
+      --cyan: #00C8FF;
+      --gold: #C9A84C;
+      --white: #ffffff;
+      --gray-50: #f8fafc;
+      --gray-100: #f1f5f9;
+      --gray-200: #e2e8f0;
+      --gray-500: #64748b;
+      --gray-700: #334155;
+      --gray-900: #0f172a;
+      --radius: 16px;
+      --shadow: 0 4px 24px rgba(0,0,0,.1);
+      --shadow-lg: 0 12px 48px rgba(0,0,0,.15);
+    }
+    body {
+      font-family: 'Jost', system-ui, sans-serif;
+      background: var(--gray-50);
+      color: var(--gray-900);
+      line-height: 1.6;
+    }
+
+    /* ── NAVBAR ── */
+    nav {
+      background: white;
+      border-bottom: 1px solid var(--gray-200);
+      padding: 0 2rem;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky; top: 0; z-index: 100;
+      box-shadow: 0 1px 12px rgba(0,0,0,.06);
+    }
+    .nav-logo {
+      display: flex; align-items: center; gap: .75rem;
+      text-decoration: none;
+    }
+    .nav-logo-icon {
+      width: 36px; height: 36px; border-radius: 8px;
+      background: linear-gradient(135deg, var(--navy), var(--blue));
+      display: flex; align-items: center; justify-content: center;
+      color: white; font-weight: 800; font-size: 1rem;
+    }
+    .nav-logo-text { font-weight: 700; font-size: 1rem; color: var(--navy); }
+    .nav-logo-text span { color: var(--blue); }
+    .nav-cta {
+      background: linear-gradient(135deg, var(--navy), var(--blue));
+      color: white; padding: .5rem 1.25rem; border-radius: 50px;
+      font-size: .82rem; font-weight: 700; text-decoration: none;
+      letter-spacing: .04em; transition: transform .15s, box-shadow .15s;
+    }
+    .nav-cta:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(26,60,255,.3); }
+
+    /* ── HERO ── */
+    .hero {
+      background: linear-gradient(135deg, var(--navy) 0%, #0d2080 50%, var(--blue) 100%);
+      color: white; text-align: center;
+      padding: 5rem 2rem 4rem;
+      position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: ''; position: absolute; inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: .5rem;
+      background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.2);
+      padding: .35rem 1rem; border-radius: 50px;
+      font-size: .72rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
+      margin-bottom: 1.5rem; color: rgba(255,255,255,.9);
+      position: relative;
+    }
+    .hero h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.2rem, 5vw, 3.8rem);
+      font-weight: 700; line-height: 1.1;
+      margin-bottom: 1rem; position: relative;
+    }
+    .hero h1 span { color: var(--cyan); }
+    .hero-sub {
+      font-size: 1rem; color: rgba(255,255,255,.75);
+      max-width: 520px; margin: 0 auto 2.5rem;
+      font-weight: 300; position: relative;
+    }
+    .hero-stats {
+      display: flex; justify-content: center; gap: 3rem; flex-wrap: wrap;
+      padding-top: 2.5rem; border-top: 1px solid rgba(255,255,255,.12);
+      position: relative;
+    }
+    .hero-stat strong { display: block; font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-weight: 700; color: var(--cyan); }
+    .hero-stat span { font-size: .72rem; text-transform: uppercase; letter-spacing: .1em; opacity: .65; }
+
+    /* ── FILTER BAR ── */
+    .filter-bar {
+      background: white; border-bottom: 1px solid var(--gray-200);
+      padding: 1rem 2rem;
+      display: flex; align-items: center; gap: .75rem; flex-wrap: wrap;
+      position: sticky; top: 64px; z-index: 90;
+    }
+    .filter-btn {
+      padding: .45rem 1rem; border-radius: 50px;
+      border: 1.5px solid var(--gray-200);
+      background: white; font-size: .8rem; font-weight: 600;
+      cursor: pointer; transition: all .18s; color: var(--gray-700);
+      font-family: 'Jost', sans-serif;
+    }
+    .filter-btn:hover { border-color: var(--blue); color: var(--blue); }
+    .filter-btn.active { background: var(--navy); color: white; border-color: var(--navy); }
+    .filter-count {
+      margin-left: auto; font-size: .8rem; color: var(--gray-500); font-weight: 500;
+    }
+
+    /* ── GRID ── */
+    .portfolio-section {
+      max-width: 1200px; margin: 0 auto;
+      padding: 3rem 2rem 5rem;
+    }
+    .section-header {
+      display: flex; align-items: center; gap: .75rem;
+      margin-bottom: 2rem;
+    }
+    .section-header h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.8rem; font-weight: 700; color: var(--navy);
+    }
+    .section-header-line {
+      flex: 1; height: 1px;
+      background: linear-gradient(90deg, var(--blue), transparent);
+    }
+    .portfolio-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 1.75rem;
+    }
+
+    /* ── WEBSITE CARD ── */
+    .site-card {
+      background: white; border-radius: var(--radius);
+      border: 1px solid var(--gray-200);
+      overflow: hidden;
+      transition: transform .25s, box-shadow .25s;
+      display: flex; flex-direction: column;
+    }
+    .site-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-lg); }
+
+    /* Card preview image */
+    .card-preview {
+      position: relative; height: 210px; overflow: hidden;
+      background: linear-gradient(135deg, #1B4332, #2D6A4F);
+    }
+    .card-preview img {
+      width: 100%; height: 100%; object-fit: cover;
+      object-position: top; transition: transform .4s;
+    }
+    .site-card:hover .card-preview img { transform: scale(1.04); }
+    .card-preview-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,.35) 0%, transparent 60%);
+    }
+    .card-cat-badge {
+      position: absolute; top: 12px; left: 12px;
+      background: rgba(0,0,0,.5); color: white;
+      font-size: .65rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+      padding: .25rem .65rem; border-radius: 50px;
+      backdrop-filter: blur(6px);
+    }
+    .card-new-badge {
+      position: absolute; top: 12px; right: 12px;
+      background: #10b981; color: white;
+      font-size: .65rem; font-weight: 800; letter-spacing: .06em;
+      padding: .25rem .6rem; border-radius: 50px;
+    }
+    .card-preview-btn {
+      position: absolute; bottom: 12px; right: 12px;
+      background: rgba(255,255,255,.9); color: var(--navy);
+      font-size: .72rem; font-weight: 700;
+      padding: .3rem .75rem; border-radius: 50px;
+      text-decoration: none; backdrop-filter: blur(4px);
+      transition: background .15s;
+    }
+    .card-preview-btn:hover { background: white; }
+
+    /* Card body */
+    .card-body { padding: 1.25rem; flex: 1; display: flex; flex-direction: column; }
+    .card-industry {
+      font-size: .68rem; font-weight: 700; color: var(--blue);
+      text-transform: uppercase; letter-spacing: .1em; margin-bottom: .35rem;
+    }
+    .card-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.35rem; font-weight: 700; color: var(--navy);
+      margin-bottom: .3rem; line-height: 1.2;
+    }
+    .card-desc {
+      font-size: .82rem; color: var(--gray-500);
+      line-height: 1.6; margin-bottom: 1rem; flex: 1;
+    }
+
+    /* Rating */
+    .card-rating {
+      display: flex; align-items: center; gap: .5rem;
+      margin-bottom: 1rem;
+    }
+    .stars { color: #f59e0b; font-size: .9rem; letter-spacing: 1px; }
+    .rating-text { font-size: .75rem; color: var(--gray-500); font-weight: 500; }
+
+    /* Quick facts */
+    .card-facts {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: .4rem; margin-bottom: 1.1rem;
+    }
+    .fact-item {
+      display: flex; align-items: center; gap: .4rem;
+      font-size: .74rem; color: var(--gray-700); font-weight: 500;
+    }
+    .fact-item::before { content: '✓'; color: var(--blue); font-weight: 800; flex-shrink: 0; }
+
+    /* Card actions */
+    .card-actions { display: flex; gap: .5rem; }
+    .btn-buy {
+      flex: 1; padding: .65rem;
+      background: linear-gradient(135deg, var(--navy), var(--blue));
+      color: white; border: none; border-radius: 8px;
+      font-size: .82rem; font-weight: 700; cursor: pointer;
+      text-align: center; text-decoration: none;
+      display: flex; align-items: center; justify-content: center; gap: .4rem;
+      transition: opacity .15s; font-family: 'Jost', sans-serif;
+    }
+    .btn-buy:hover { opacity: .88; }
+    .btn-wa {
+      padding: .65rem .9rem; border-radius: 8px;
+      background: #25D366; color: white;
+      border: none; cursor: pointer; text-decoration: none;
+      display: flex; align-items: center; justify-content: center;
+      transition: opacity .15s;
+    }
+    .btn-wa:hover { opacity: .85; }
+    .btn-wa svg { width: 18px; height: 18px; }
+
+    /* ── CTA BANNER ── */
+    .cta-banner {
+      background: linear-gradient(135deg, var(--navy) 0%, #0d2080 100%);
+      color: white; text-align: center;
+      padding: 4rem 2rem; margin-top: 2rem;
+      border-radius: var(--radius);
+      position: relative; overflow: hidden;
+    }
+    .cta-banner::before {
+      content: ''; position: absolute; top: -60px; right: -60px;
+      width: 240px; height: 240px;
+      background: rgba(0,200,255,.07); border-radius: 50%;
+    }
+    .cta-banner h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.6rem, 3vw, 2.4rem);
+      font-weight: 700; margin-bottom: .75rem; position: relative;
+    }
+    .cta-banner p { color: rgba(255,255,255,.7); margin-bottom: 1.75rem; font-size: .95rem; position: relative; }
+    .cta-btns { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; position: relative; }
+    .btn-cyan {
+      background: var(--cyan); color: var(--navy);
+      padding: .85rem 2rem; border-radius: 50px;
+      font-weight: 800; font-size: .9rem;
+      text-decoration: none; letter-spacing: .04em; text-transform: uppercase;
+      transition: transform .15s, box-shadow .15s;
+      display: inline-flex; align-items: center; gap: .5rem;
+    }
+    .btn-cyan:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,200,255,.35); }
+    .btn-outline-white {
+      border: 1.5px solid rgba(255,255,255,.5); color: white;
+      padding: .85rem 2rem; border-radius: 50px;
+      font-weight: 600; font-size: .9rem; text-decoration: none;
+      transition: all .2s; display: inline-flex; align-items: center; gap: .5rem;
+    }
+    .btn-outline-white:hover { background: rgba(255,255,255,.08); border-color: white; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--navy); color: rgba(255,255,255,.6);
+      text-align: center; padding: 2rem;
+      font-size: .82rem; margin-top: 4rem;
+    }
+    footer a { color: var(--cyan); text-decoration: none; }
+
+    @media (max-width: 640px) {
+      .portfolio-grid { grid-template-columns: 1fr; }
+      .hero-stats { gap: 1.5rem; }
+      .card-facts { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav>
+  <a class="nav-logo" href="/">
+    <img src="assets/logo.png" alt="Scalioz" style="height:42px;" />
+  </a>
+  <a class="nav-cta" href="https://wa.me/919043616100?text=Hi%20Scalioz!%20I%20want%20a%20website%20built%20for%20my%20business." target="_blank" rel="noopener">💬 Get Your Website</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">🚀 Built by Scalioz Systems · Chennai</div>
+  <h1>Websites That <span>Work</span><br/>While You Sleep</h1>
+  <p class="hero-sub">Ready-to-deploy, SEO-optimised, fully customisable websites for every business — with AI chatbots, multilingual support, and WhatsApp integration built in.</p>
+  <div class="hero-stats">
+    <div class="hero-stat"><strong>10+</strong><span>Sites Delivered</span></div>
+    <div class="hero-stat"><strong>4</strong><span>Languages Supported</span></div>
+    <div class="hero-stat"><strong>48hr</strong><span>Delivery Time</span></div>
+    <div class="hero-stat"><strong>100%</strong><span>Customisable</span></div>
+  </div>
+</div>
+
+<!-- FILTER BAR -->
+<div class="filter-bar">
+  <button class="filter-btn active" onclick="filterCards(this,'all')">All</button>
+  <button class="filter-btn" onclick="filterCards(this,'travel')">✈️ Travel & Pilgrimage</button>
+  <button class="filter-btn" onclick="filterCards(this,'healthcare')">🏥 Healthcare</button>
+  <button class="filter-btn" onclick="filterCards(this,'realestate')">🏠 Real Estate</button>
+  <button class="filter-btn" onclick="filterCards(this,'education')">🎓 Education</button>
+  <span class="filter-count" id="filter-count">Showing 1 website</span>
+</div>
+
+<!-- PORTFOLIO -->
+<div class="portfolio-section">
+  <div class="section-header">
+    <h2>Our Portfolio</h2>
+    <div class="section-header-line"></div>
+  </div>
+
+  <div class="portfolio-grid" id="portfolio-grid">
+
+    <!-- ── AL MUMIN ── -->
+    <div class="site-card" data-cat="travel">
+      <div class="card-preview">
+        <img src="https://image.thum.io/get/width/700/crop/420/https://scalioz.github.io/almumin/" alt="Al Mumin Haj & Umrah Services Website" onerror="this.src='https://images.unsplash.com/photo-1519817914152-22d216bb9170?w=700&q=80'" />
+        <div class="card-preview-overlay"></div>
+        <span class="card-cat-badge">✈️ Travel & Pilgrimage</span>
+        <span class="card-new-badge">⭐ New</span>
+        <a class="card-preview-btn" href="https://scalioz.github.io/almumin/" target="_blank" rel="noopener">🔗 Live Preview →</a>
+      </div>
+      <div class="card-body">
+        <div class="card-industry">Haj & Umrah Services</div>
+        <div class="card-title">Al Mumin Haj & Umrah Website</div>
+        <div class="card-desc">A high-converting, multilingual website for Hajj & Umrah tour operators. Features package showcase, AI chatbot with full Islamic knowledge base, lead qualification, and WhatsApp integration.</div>
+
+        <!-- RATING -->
+        <div class="card-rating">
+          <span class="stars">★★★★★</span>
+          <span class="rating-text">5.0 · Premium Quality</span>
+        </div>
+
+        <!-- QUICK FACTS -->
+        <div class="card-facts">
+          <div class="fact-item">Easy Deployment</div>
+          <div class="fact-item">Ready to Flash</div>
+          <div class="fact-item">100% Customisable</div>
+          <div class="fact-item">Multilingual Bot</div>
+          <div class="fact-item">SEO Optimised</div>
+          <div class="fact-item">WhatsApp Leads</div>
+          <div class="fact-item">4 Languages</div>
+          <div class="fact-item">Islamic Knowledge AI</div>
+        </div>
+
+        <!-- ACTIONS -->
+        <div class="card-actions">
+          <a class="btn-buy" href="https://wa.me/919043616100?text=Hi%20Scalioz!%20I%20want%20to%20buy%20or%20customise%20the%20Al%20Mumin%20Hajj%20%26%20Umrah%20website%20template." target="_blank" rel="noopener">
+            🛒 Buy · Customise
+          </a>
+          <a class="btn-wa" href="https://wa.me/919043616100?text=Hi%20Scalioz!%20I%20want%20to%20know%20more%20about%20the%20Al%20Mumin%20website%20template." target="_blank" rel="noopener" aria-label="WhatsApp">
+            <svg viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.117 1.524 5.847L0 24l6.335-1.509A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.015-1.376l-.36-.214-3.727.977.994-3.639-.234-.374A9.818 9.818 0 0112 2.182c5.428 0 9.818 4.39 9.818 9.818 0 5.429-4.39 9.818-9.818 9.818z"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- COMING SOON CARD -->
+    <div class="site-card" data-cat="coming" style="opacity:.55;pointer-events:none;">
+      <div class="card-preview" style="background:var(--gray-100);display:flex;align-items:center;justify-content:center;">
+        <div style="text-align:center;color:var(--gray-500);">
+          <div style="font-size:2.5rem;margin-bottom:.5rem;">🔜</div>
+          <div style="font-size:.85rem;font-weight:600;">Coming Soon</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-industry">Healthcare</div>
+        <div class="card-title">Clinic Website Template</div>
+        <div class="card-desc">A premium website for clinics and hospitals with appointment booking, patient portal, and doctor profiles.</div>
+        <div class="card-rating"><span class="stars">★★★★★</span><span class="rating-text">Coming Soon</span></div>
+      </div>
+    </div>
+
+    <div class="site-card" data-cat="coming" style="opacity:.55;pointer-events:none;">
+      <div class="card-preview" style="background:var(--gray-100);display:flex;align-items:center;justify-content:center;">
+        <div style="text-align:center;color:var(--gray-500);">
+          <div style="font-size:2.5rem;margin-bottom:.5rem;">🔜</div>
+          <div style="font-size:.85rem;font-weight:600;">Coming Soon</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-industry">Real Estate</div>
+        <div class="card-title">Property Agency Website</div>
+        <div class="card-desc">Full-featured real estate website with property listings, ROI calculator, and broker lead management.</div>
+        <div class="card-rating"><span class="stars">★★★★★</span><span class="rating-text">Coming Soon</span></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- CTA BANNER -->
+  <div class="cta-banner">
+    <h3>Need a Website for Your Business?</h3>
+    <p>We build premium, ready-to-deploy websites in 48 hours. Fully customised to your brand, with AI chatbot, multilingual support, and WhatsApp lead generation built in.</p>
+    <div class="cta-btns">
+      <a class="btn-cyan" href="https://wa.me/919043616100?text=Hi%20Scalioz!%20I%20want%20a%20website%20built%20for%20my%20business.%20Please%20share%20details." target="_blank" rel="noopener">💬 WhatsApp Us Now</a>
+      <a class="btn-outline-white" href="https://tools.scalioz.com" target="_blank" rel="noopener">🛠 See Our Tools →</a>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2025 Scalioz Systems, Chennai · <a href="https://tools.scalioz.com">Tools</a> · <a href="https://wa.me/919043616100">WhatsApp</a> · <a href="mailto:info@scalioz.com">info@scalioz.com</a></p>
+</footer>
+
+<script>
+function filterCards(btn, cat) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const cards = document.querySelectorAll('.site-card');
+  let count = 0;
+  cards.forEach(card => {
+    const c = card.dataset.cat;
+    const show = cat === 'all' || c === cat;
+    card.style.display = show ? '' : 'none';
+    if (show && c !== 'coming') count++;
+  });
+  document.getElementById('filter-count').textContent = `Showing ${count} website${count !== 1 ? 's' : ''}`;
+}
+// Init count
+document.addEventListener('DOMContentLoaded', () => {
+  const active = document.querySelectorAll('.site-card:not([data-cat="coming"])').length;
+  document.getElementById('filter-count').textContent = `Showing ${active} website`;
+});
+</script>
+</body>
+</html>
