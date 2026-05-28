@@ -2,7 +2,7 @@
 // Get FREE key: https://aistudio.google.com/app/apikey
 (function () {
   'use strict';
-  const GEMINI_API_KEY = 'YOUR_GEMINI_API_KEY_HERE';
+  const GEMINI_API_KEY = 'AIzaSyD33kOvhCXpUKfiDjnxy2fKShcqw84qKuE';
   const WA_NUMBER = '919043616100';
 
   const CONTEXT = `You are Scalioz AI, a smart sales consultant for Scalioz Systems, Chennai.
