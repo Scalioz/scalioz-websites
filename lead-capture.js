@@ -233,7 +233,7 @@
     const timestamp = new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' });
     const lead = { name, phone, email, website: pendingTitle, timestamp, source: 'websites.scalioz.com' };
 
-    // 1. Build WhatsApp URL
+    // 1. Build WhatsApp URL (shown as button in success screen)
     const waMsg = encodeURIComponent(
       `🔔 *New Lead — Live Preview Request*\n\n` +
       `👤 *Name:* ${name}\n` +
@@ -259,21 +259,23 @@
     document.getElementById('scz-gate-form').style.display = 'none';
     document.getElementById('scz-success-msg').style.display = 'block';
 
-    // 4. After 1.8s: open WhatsApp in new tab THEN redirect current page to portfolio site
-    // Using a link click trick to reliably open new tab without browser blocking
+    // 4. After 1.8s: redirect current page to portfolio site
+    //    WhatsApp link is shown as a fallback button in success message
+    document.getElementById('scz-success-msg').innerHTML = `
+      <div class="scz-success-icon">✅</div>
+      <h3>Opening preview...</h3>
+      <p>Thank you! Redirecting you to the live website now.<br>Our team will reach out shortly on WhatsApp.</p>
+      <a href="${waUrl}" target="_blank" rel="noopener"
+         style="display:inline-block;margin-top:12px;padding:10px 20px;background:#25D366;
+                color:#fff;border-radius:10px;font-size:13px;font-weight:600;
+                text-decoration:none;font-family:inherit;">
+        📲 Also send via WhatsApp
+      </a>
+    `;
+
     setTimeout(() => {
-      const waLink = document.createElement('a');
-      waLink.href = waUrl;
-      waLink.target = '_blank';
-      waLink.rel = 'noopener';
-      document.body.appendChild(waLink);
-      waLink.click();
-      document.body.removeChild(waLink);
-      // Small delay then redirect current page
-      setTimeout(() => {
-        window.location.href = pendingUrl;
-      }, 300);
-    }, 1800);
+      window.location.href = pendingUrl;
+    }, 2500);
   }
 
   // ── EVENTS ───────────────────────────────────────────────────
