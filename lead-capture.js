@@ -213,7 +213,7 @@
   }
 
   // ── SUBMIT ───────────────────────────────────────────────────
-  function handleSubmit() {
+  async function handleSubmit() {
     const name  = document.getElementById('scz-fname').value.trim();
     const phone = document.getElementById('scz-fphone').value.trim();
     const email = document.getElementById('scz-femail').value.trim();
@@ -233,7 +233,7 @@
     const timestamp = new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' });
     const lead = { name, phone, email, website: pendingTitle, timestamp, source: 'websites.scalioz.com' };
 
-    // 1. Build WhatsApp URL (shown as button in success screen)
+    // 1. Send to WhatsApp
     const waMsg = encodeURIComponent(
       `🔔 *New Lead — Live Preview Request*\n\n` +
       `👤 *Name:* ${name}\n` +
@@ -243,39 +243,30 @@
       `🕐 *Time:* ${timestamp}\n` +
       `📍 *Source:* websites.scalioz.com`
     );
-    const waUrl = `https://wa.me/${WA_NUMBER}?text=${waMsg}`;
+    window.open(`https://wa.me/${WA_NUMBER}?text=${waMsg}`, '_blank');
 
     // 2. Send to Google Sheets (if webhook configured)
     if (SHEETS_WEBHOOK) {
-      fetch(SHEETS_WEBHOOK, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(lead)
-      }).catch(() => {});
+      try {
+        await fetch(SHEETS_WEBHOOK, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(lead)
+        });
+      } catch (e) { /* silent fail */ }
     }
 
-    // 3. Show success message
+    // 3. Show success then open preview
     document.getElementById('scz-gate-form').style.display = 'none';
     document.getElementById('scz-success-msg').style.display = 'block';
 
-    // 4. After 1.8s: redirect current page to portfolio site
-    //    WhatsApp link is shown as a fallback button in success message
-    document.getElementById('scz-success-msg').innerHTML = `
-      <div class="scz-success-icon">✅</div>
-      <h3>Opening preview...</h3>
-      <p>Thank you! Redirecting you to the live website now.<br>Our team will reach out shortly on WhatsApp.</p>
-      <a href="${waUrl}" target="_blank" rel="noopener"
-         style="display:inline-block;margin-top:12px;padding:10px 20px;background:#25D366;
-                color:#fff;border-radius:10px;font-size:13px;font-weight:600;
-                text-decoration:none;font-family:inherit;">
-        📲 Also send via WhatsApp
-      </a>
-    `;
-
     setTimeout(() => {
-      window.location.href = pendingUrl;
-    }, 2500);
+      window.open(pendingUrl, '_blank');
+      closeGate();
+      btn.disabled = false;
+      btn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg> View Live Preview`;
+    }, 1800);
   }
 
   // ── EVENTS ───────────────────────────────────────────────────
@@ -307,11 +298,10 @@
 
       if (isPreviewBtn && !el.dataset.gated) {
         el.dataset.gated = 'true';
-        // Use data-preview-url first (explicit), then fall back to href
-        const originalHref = el.dataset.previewUrl || el.getAttribute('href') || '#';
+        const originalHref = el.href || el.dataset.href || '#';
         // Find the card title
         const card = el.closest('[class*="card"], [class*="item"], article, li, div[data-name]');
-        const titleEl = card ? (card.querySelector('[class*="title"], h2, h3, h4, [class*="name"]')) : null;
+        const titleEl = card ? (card.querySelector('h2, h3, h4, [class*="title"], [class*="name"]')) : null;
         const websiteTitle = titleEl ? titleEl.textContent.trim() : 'Scalioz Website';
 
         el.addEventListener('click', (e) => {
