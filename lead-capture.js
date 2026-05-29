@@ -213,7 +213,7 @@
   }
 
   // ── SUBMIT ───────────────────────────────────────────────────
-  async function handleSubmit() {
+  function handleSubmit() {
     const name  = document.getElementById('scz-fname').value.trim();
     const phone = document.getElementById('scz-fphone').value.trim();
     const email = document.getElementById('scz-femail').value.trim();
@@ -233,7 +233,7 @@
     const timestamp = new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' });
     const lead = { name, phone, email, website: pendingTitle, timestamp, source: 'websites.scalioz.com' };
 
-    // 1. Send WhatsApp notification (opens in new tab so user stays on page)
+    // 1. Build WhatsApp URL
     const waMsg = encodeURIComponent(
       `🔔 *New Lead — Live Preview Request*\n\n` +
       `👤 *Name:* ${name}\n` +
@@ -243,27 +243,36 @@
       `🕐 *Time:* ${timestamp}\n` +
       `📍 *Source:* websites.scalioz.com`
     );
-    window.open(`https://wa.me/${WA_NUMBER}?text=${waMsg}`, '_blank');
+    const waUrl = `https://wa.me/${WA_NUMBER}?text=${waMsg}`;
 
     // 2. Send to Google Sheets (if webhook configured)
     if (SHEETS_WEBHOOK) {
-      try {
-        await fetch(SHEETS_WEBHOOK, {
-          method: 'POST',
-          mode: 'no-cors',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(lead)
-        });
-      } catch (e) { /* silent fail */ }
+      fetch(SHEETS_WEBHOOK, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(lead)
+      }).catch(() => {});
     }
 
-    // 3. Show success message then redirect current page to the portfolio site
+    // 3. Show success message
     document.getElementById('scz-gate-form').style.display = 'none';
     document.getElementById('scz-success-msg').style.display = 'block';
 
+    // 4. After 1.8s: open WhatsApp in new tab THEN redirect current page to portfolio site
+    // Using a link click trick to reliably open new tab without browser blocking
     setTimeout(() => {
-      // FIX: redirect current page to portfolio site instead of opening new tab
-      window.location.href = pendingUrl;
+      const waLink = document.createElement('a');
+      waLink.href = waUrl;
+      waLink.target = '_blank';
+      waLink.rel = 'noopener';
+      document.body.appendChild(waLink);
+      waLink.click();
+      document.body.removeChild(waLink);
+      // Small delay then redirect current page
+      setTimeout(() => {
+        window.location.href = pendingUrl;
+      }, 300);
     }, 1800);
   }
 
