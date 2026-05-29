@@ -213,7 +213,7 @@
   }
 
   // ── SUBMIT ───────────────────────────────────────────────────
-  async function handleSubmit() {
+  function handleSubmit() {
     const name  = document.getElementById('scz-fname').value.trim();
     const phone = document.getElementById('scz-fphone').value.trim();
     const email = document.getElementById('scz-femail').value.trim();
@@ -233,7 +233,7 @@
     const timestamp = new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' });
     const lead = { name, phone, email, website: pendingTitle, timestamp, source: 'websites.scalioz.com' };
 
-    // 1. Send to WhatsApp
+    // 1. Send WhatsApp notification in new tab
     const waMsg = encodeURIComponent(
       `🔔 *New Lead — Live Preview Request*\n\n` +
       `👤 *Name:* ${name}\n` +
@@ -247,26 +247,22 @@
 
     // 2. Send to Google Sheets (if webhook configured)
     if (SHEETS_WEBHOOK) {
-      try {
-        await fetch(SHEETS_WEBHOOK, {
-          method: 'POST',
-          mode: 'no-cors',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(lead)
-        });
-      } catch (e) { /* silent fail */ }
+      fetch(SHEETS_WEBHOOK, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(lead)
+      }).catch(() => {});
     }
 
-    // 3. Show success then open preview
+    // 3. Show success message
     document.getElementById('scz-gate-form').style.display = 'none';
     document.getElementById('scz-success-msg').style.display = 'block';
 
+    // 4. After 2 seconds redirect current page to the portfolio site
     setTimeout(() => {
-      window.open(pendingUrl, '_blank');
-      closeGate();
-      btn.disabled = false;
-      btn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg> View Live Preview`;
-    }, 1800);
+      window.location.href = pendingUrl;
+    }, 2000);
   }
 
   // ── EVENTS ───────────────────────────────────────────────────
@@ -298,7 +294,7 @@
 
       if (isPreviewBtn && !el.dataset.gated) {
         el.dataset.gated = 'true';
-        const originalHref = el.href || el.dataset.href || '#';
+        const originalHref = el.getAttribute('href') || el.dataset.href || '#';
         // Find the card title
         const card = el.closest('[class*="card"], [class*="item"], article, li, div[data-name]');
         const titleEl = card ? (card.querySelector('h2, h3, h4, [class*="title"], [class*="name"]')) : null;
