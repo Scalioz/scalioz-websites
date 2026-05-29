@@ -307,10 +307,11 @@
 
       if (isPreviewBtn && !el.dataset.gated) {
         el.dataset.gated = 'true';
-        const originalHref = el.href || el.dataset.href || '#';
+        // Use data-preview-url first (explicit), then fall back to href
+        const originalHref = el.dataset.previewUrl || el.getAttribute('href') || '#';
         // Find the card title
         const card = el.closest('[class*="card"], [class*="item"], article, li, div[data-name]');
-        const titleEl = card ? (card.querySelector('h2, h3, h4, [class*="title"], [class*="name"]')) : null;
+        const titleEl = card ? (card.querySelector('[class*="title"], h2, h3, h4, [class*="name"]')) : null;
         const websiteTitle = titleEl ? titleEl.textContent.trim() : 'Scalioz Website';
 
         el.addEventListener('click', (e) => {
