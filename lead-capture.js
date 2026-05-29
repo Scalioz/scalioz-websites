@@ -233,7 +233,7 @@
     const timestamp = new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' });
     const lead = { name, phone, email, website: pendingTitle, timestamp, source: 'websites.scalioz.com' };
 
-    // 1. Send to WhatsApp
+    // 1. Send WhatsApp notification (opens in new tab so user stays on page)
     const waMsg = encodeURIComponent(
       `🔔 *New Lead — Live Preview Request*\n\n` +
       `👤 *Name:* ${name}\n` +
@@ -257,15 +257,13 @@
       } catch (e) { /* silent fail */ }
     }
 
-    // 3. Show success then open preview
+    // 3. Show success message then redirect current page to the portfolio site
     document.getElementById('scz-gate-form').style.display = 'none';
     document.getElementById('scz-success-msg').style.display = 'block';
 
     setTimeout(() => {
-      window.open(pendingUrl, '_blank');
-      closeGate();
-      btn.disabled = false;
-      btn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg> View Live Preview`;
+      // FIX: redirect current page to portfolio site instead of opening new tab
+      window.location.href = pendingUrl;
     }, 1800);
   }
 
