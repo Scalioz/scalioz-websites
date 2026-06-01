@@ -3,7 +3,7 @@
 (function () {
   'use strict';
   const WA = '919043616100';
-  const GEMINI_KEY = 'YOUR_GEMINI_API_KEY_HERE';
+  const GEMINI_KEY = 'AQ.Ab8RN6K6221_ofj7PUz8Wx8wl1x8wqDYakEGKegtSNBP_xEv-A';
 
   // ── Smart responses per service ──────────────────────────────
   const FLOWS = {
