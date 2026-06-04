@@ -252,7 +252,7 @@
     if (SHEETS_WEBHOOK) {
       fetch(SHEETS_WEBHOOK, {
         method: 'POST',
-        mode: 'no-cors',
+        mode: 'cors',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(lead)
       }).catch(() => {});
