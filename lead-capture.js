@@ -204,6 +204,9 @@
     document.getElementById('scz-fname').value = '';
     document.getElementById('scz-fphone').value = '';
     document.getElementById('scz-femail').value = '';
+    const btn = document.getElementById('scz-gate-submit');
+    btn.disabled = false;
+    btn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg> View Live Preview`;
     overlay.classList.add('active');
     setTimeout(() => document.getElementById('scz-fname').focus(), 300);
   }
