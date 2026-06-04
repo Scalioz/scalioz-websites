@@ -12,7 +12,7 @@
 
   // Optional: Google Sheets webhook (paste your Apps Script URL here)
   // Leave empty string '' to skip Google Sheets and use WhatsApp only
-  const SHEETS_WEBHOOK = 'https://scalioz.app.n8n.cloud/webhook/075d8c99-be68-4c62-b46c-cbf846d16a85';
+  const SHEETS_WEBHOOK = 'https://script.google.com/macros/s/AKfycbyHwmPZN0NON2RZK7oPHJE2bG8J6cUxTgkNzWeWum5uBFFvlDAsoYQkCP3d1tWgKm4g4g/exec';
 
   // ── CSS ──────────────────────────────────────────────────────
   const CSS = `
