@@ -246,7 +246,7 @@
 
       if (isPreviewBtn && !el.dataset.gated) {
         // Store the href BEFORE removing it
-        const originalHref = el.getAttribute('href') || el.dataset.href || '';
+        const originalHref = el.dataset.storedHref || el.getAttribute('href') || el.dataset.href || '';
         
         // Skip if no real URL
         if (!originalHref || originalHref === '#') return;
