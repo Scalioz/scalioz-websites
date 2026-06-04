@@ -236,24 +236,11 @@
     const timestamp = new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' });
     const lead = { name, phone, email, website: pendingTitle, timestamp, source: 'websites.scalioz.com' };
 
-    // 1. Send WhatsApp notification in new tab
-    const waMsg = encodeURIComponent(
-      `🔔 *New Lead — Live Preview Request*\n\n` +
-      `👤 *Name:* ${name}\n` +
-      `📞 *Phone:* ${phone}\n` +
-      `📧 *Email:* ${email || '—'}\n` +
-      `🌐 *Website:* ${pendingTitle}\n` +
-      `🕐 *Time:* ${timestamp}\n` +
-      `📍 *Source:* websites.scalioz.com`
-    );
-    window.open(`https://wa.me/${WA_NUMBER}?text=${waMsg}`, '_blank');
-
     // 2. Send to Google Sheets (if webhook configured)
     if (SHEETS_WEBHOOK) {
       fetch(SHEETS_WEBHOOK, {
         method: 'POST',
-        mode: 'cors',
-        headers: { 'Content-Type': 'application/json' },
+        mode: 'no-cors',
         body: JSON.stringify(lead)
       }).catch(() => {});
     }
