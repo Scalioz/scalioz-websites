@@ -1,13 +1,11 @@
 // ================================================================
 // SCALIOZ WEBSITES — Lead Capture Gate for Live Preview
 // websites.scalioz.com | Scalioz Systems, Chennai
-// Add to index.html before </body>: <script src="lead-capture.js"></script>
 // ================================================================
 
 (function () {
   'use strict';
 
-  // ── CONFIG ───────────────────────────────────────────────────
   const SHEETS_WEBHOOK = 'https://script.google.com/macros/s/AKfycbyHwmPZN0NON2RZK7oPHJE2bG8J6cUxTgkNzWeWum5uBFFvlDAsoYQkCP3d1tWgKm4g4g/exec';
 
   // ── CSS ──────────────────────────────────────────────────────
@@ -33,66 +31,28 @@
   #scz-gate-overlay.active #scz-gate-box { transform: translateY(0) scale(1); }
   #scz-gate-head {
     background: linear-gradient(135deg, #0A1860 0%, #1A3CFF 100%);
-    padding: 24px 24px 20px;
-    position: relative; overflow: hidden;
+    padding: 24px 24px 20px; position: relative; overflow: hidden;
   }
   #scz-gate-head::before {
     content: ''; position: absolute;
     width: 160px; height: 160px; border-radius: 50%;
-    background: rgba(0,200,255,0.1);
-    top: -60px; right: -30px;
+    background: rgba(0,200,255,0.1); top: -60px; right: -30px;
   }
   #scz-gate-icon { font-size: 32px; margin-bottom: 10px; display: block; position: relative; z-index: 1; }
-  #scz-gate-title {
-    color: #fff; font-size: 20px; font-weight: 800;
-    font-family: 'Segoe UI', system-ui, sans-serif;
-    letter-spacing: -0.01em; margin-bottom: 6px; position: relative; z-index: 1;
-  }
-  #scz-gate-sub {
-    color: rgba(0,200,255,0.9); font-size: 13px;
-    font-family: 'Segoe UI', system-ui, sans-serif;
-    position: relative; z-index: 1; line-height: 1.4;
-  }
+  #scz-gate-title { color: #fff; font-size: 20px; font-weight: 800; font-family: 'Segoe UI', system-ui, sans-serif; letter-spacing: -0.01em; margin-bottom: 6px; position: relative; z-index: 1; }
+  #scz-gate-sub { color: rgba(0,200,255,0.9); font-size: 13px; font-family: 'Segoe UI', system-ui, sans-serif; position: relative; z-index: 1; line-height: 1.4; }
   #scz-gate-body { padding: 24px; font-family: 'Segoe UI', system-ui, sans-serif; }
   .scz-field { margin-bottom: 14px; }
-  .scz-label {
-    display: block; font-size: 12.5px; font-weight: 600;
-    color: #4a5080; margin-bottom: 5px; letter-spacing: 0.02em; text-transform: uppercase;
-  }
-  .scz-input {
-    width: 100%; border: 1.5px solid #e0e4f0;
-    border-radius: 10px; padding: 11px 13px;
-    font-size: 14px; color: #1a1f3a; outline: none;
-    transition: border-color 0.2s, box-shadow 0.2s;
-    font-family: inherit; background: #fafbff;
-  }
+  .scz-label { display: block; font-size: 12.5px; font-weight: 600; color: #4a5080; margin-bottom: 5px; letter-spacing: 0.02em; text-transform: uppercase; }
+  .scz-input { width: 100%; border: 1.5px solid #e0e4f0; border-radius: 10px; padding: 11px 13px; font-size: 14px; color: #1a1f3a; outline: none; transition: border-color 0.2s, box-shadow 0.2s; font-family: inherit; background: #fafbff; }
   .scz-input:focus { border-color: #1A3CFF; box-shadow: 0 0 0 3px rgba(26,60,255,0.1); background: #fff; }
   .scz-input::placeholder { color: #b0b6d0; }
   .scz-input.error { border-color: #FF3B5C; }
-  #scz-gate-submit {
-    width: 100%; padding: 13px;
-    background: linear-gradient(135deg, #1A3CFF, #0A40E0);
-    color: #fff; border: none; border-radius: 12px;
-    font-size: 15px; font-weight: 700; cursor: pointer;
-    font-family: inherit; letter-spacing: 0.01em;
-    transition: opacity 0.2s, transform 0.1s;
-    display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 4px;
-  }
+  #scz-gate-submit { width: 100%; padding: 13px; background: linear-gradient(135deg, #1A3CFF, #0A40E0); color: #fff; border: none; border-radius: 12px; font-size: 15px; font-weight: 700; cursor: pointer; font-family: inherit; letter-spacing: 0.01em; transition: opacity 0.2s, transform 0.1s; display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 4px; }
   #scz-gate-submit:hover { opacity: 0.9; transform: translateY(-1px); }
   #scz-gate-submit:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
-  #scz-gate-note {
-    text-align: center; font-size: 11.5px; color: #9ba3c0;
-    margin-top: 12px; line-height: 1.5;
-    display: flex; align-items: center; justify-content: center; gap: 5px;
-  }
-  #scz-gate-close {
-    position: absolute; top: 14px; right: 16px;
-    background: rgba(255,255,255,0.15); border: none;
-    width: 28px; height: 28px; border-radius: 50%;
-    cursor: pointer; color: #fff; font-size: 16px;
-    display: flex; align-items: center; justify-content: center;
-    transition: background 0.15s; z-index: 2;
-  }
+  #scz-gate-note { text-align: center; font-size: 11.5px; color: #9ba3c0; margin-top: 12px; line-height: 1.5; display: flex; align-items: center; justify-content: center; gap: 5px; }
+  #scz-gate-close { position: absolute; top: 14px; right: 16px; background: rgba(255,255,255,0.15); border: none; width: 28px; height: 28px; border-radius: 50%; cursor: pointer; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; transition: background 0.15s; z-index: 2; }
   #scz-gate-close:hover { background: rgba(255,255,255,0.25); }
   #scz-success-msg { display: none; text-align: center; padding: 20px 0 8px; }
   #scz-success-msg .scz-success-icon { font-size: 40px; margin-bottom: 10px; }
@@ -109,7 +69,7 @@
   styleEl.textContent = CSS;
   document.head.appendChild(styleEl);
 
-  // ── INJECT HTML ──────────────────────────────────────────────
+  // ── HTML ─────────────────────────────────────────────────────
   const overlay = document.createElement('div');
   overlay.id = 'scz-gate-overlay';
   overlay.innerHTML = `
@@ -172,9 +132,7 @@
     setTimeout(() => document.getElementById('scz-fname').focus(), 300);
   }
 
-  function closeGate() {
-    overlay.classList.remove('active');
-  }
+  function closeGate() { overlay.classList.remove('active'); }
 
   // ── SUBMIT ───────────────────────────────────────────────────
   function handleSubmit() {
@@ -205,11 +163,10 @@
       }).catch(() => {});
     }
 
-    // Show success message
+    // Show success then open preview
     document.getElementById('scz-gate-form').style.display = 'none';
     document.getElementById('scz-success-msg').style.display = 'block';
 
-    // After 2 seconds open preview in new tab and close gate
     setTimeout(() => {
       if (pendingUrl && pendingUrl !== '#' && pendingUrl !== '') {
         window.open(pendingUrl, '_blank');
@@ -222,51 +179,37 @@
   document.getElementById('scz-gate-close').addEventListener('click', closeGate);
   overlay.addEventListener('click', (e) => { if (e.target === overlay) closeGate(); });
   document.getElementById('scz-gate-submit').addEventListener('click', handleSubmit);
-
   ['scz-fname','scz-fphone','scz-femail'].forEach(id => {
-    document.getElementById(id).addEventListener('keydown', e => {
-      if (e.key === 'Enter') handleSubmit();
-    });
+    document.getElementById(id).addEventListener('keydown', e => { if (e.key === 'Enter') handleSubmit(); });
   });
+  document.getElementById('scz-fname').addEventListener('input', () => document.getElementById('scz-fname').classList.remove('error'));
+  document.getElementById('scz-fphone').addEventListener('input', () => document.getElementById('scz-fphone').classList.remove('error'));
 
-  document.getElementById('scz-fname').addEventListener('input', () =>
-    document.getElementById('scz-fname').classList.remove('error'));
-  document.getElementById('scz-fphone').addEventListener('input', () =>
-    document.getElementById('scz-fphone').classList.remove('error'));
-
-  // ── INTERCEPT LIVE PREVIEW BUTTONS ───────────────────────────
+  // ── INTERCEPT PREVIEW BUTTONS — only inside .site-card ───────
   function attachToButtons() {
-    document.querySelectorAll('a, button').forEach(el => {
-      const text = el.textContent.trim().toLowerCase();
-      const isPreviewBtn = text.includes('live preview') ||
-                           text.includes('preview') ||
-                           el.classList.contains('btn-preview') ||
-                           el.classList.contains('card-preview-btn') ||
-                           el.dataset.preview;
+    // ONLY look inside site-card elements — never globally
+    document.querySelectorAll('.site-card').forEach(card => {
+      // Skip coming soon cards
+      if (card.dataset.cat === 'coming') return;
 
-      if (isPreviewBtn && !el.dataset.gated) {
-        // Store the href BEFORE removing it
-        const originalHref = el.dataset.storedHref || el.getAttribute('href') || el.dataset.href || '';
-        
-        // Skip if no real URL
-        if (!originalHref || originalHref === '#') return;
+      // Get the card title
+      const titleEl = card.querySelector('.card-title');
+      const websiteTitle = titleEl ? titleEl.textContent.trim() : 'Scalioz Website';
+
+      // Find all preview buttons inside this card
+      card.querySelectorAll('[data-preview="true"]').forEach(el => {
+        if (el.dataset.gated) return; // already gated
+        const previewUrl = el.dataset.storedHref || '';
+        if (!previewUrl) return; // no URL, skip
 
         el.dataset.gated = 'true';
-        el.dataset.storedHref = originalHref; // save it on the element too
-
-        // Find the card title
-        const card = el.closest('.site-card, .website-card, [class*="card"], article, li');
-        const titleEl = card ? card.querySelector('.card-title, h2, h3, h4, [class*="title"]') : null;
-        const websiteTitle = titleEl ? titleEl.textContent.trim() : 'Scalioz Website';
 
         el.addEventListener('click', (e) => {
           e.preventDefault();
           e.stopPropagation();
-          openGate(el.dataset.storedHref, websiteTitle);
+          openGate(previewUrl, websiteTitle);
         });
-
-        if (el.tagName === 'A') el.removeAttribute('href');
-      }
+      });
     });
   }
 
