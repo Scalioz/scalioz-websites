@@ -7,7 +7,7 @@
 (function () {
   'use strict';
 
-  // ── CONFIG — edit these ──────────────────────────────────────
+  // ── CONFIG ───────────────────────────────────────────────────
   const SHEETS_WEBHOOK = 'https://script.google.com/macros/s/AKfycbyHwmPZN0NON2RZK7oPHJE2bG8J6cUxTgkNzWeWum5uBFFvlDAsoYQkCP3d1tWgKm4g4g/exec';
 
   // ── CSS ──────────────────────────────────────────────────────
@@ -22,7 +22,6 @@
     pointer-events: none;
   }
   #scz-gate-overlay.active { opacity: 1; pointer-events: all; }
-
   #scz-gate-box {
     background: #fff; border-radius: 20px;
     width: 100%; max-width: 420px;
@@ -31,10 +30,7 @@
     transform: translateY(24px) scale(0.96);
     transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
   }
-  #scz-gate-overlay.active #scz-gate-box {
-    transform: translateY(0) scale(1);
-  }
-
+  #scz-gate-overlay.active #scz-gate-box { transform: translateY(0) scale(1); }
   #scz-gate-head {
     background: linear-gradient(135deg, #0A1860 0%, #1A3CFF 100%);
     padding: 24px 24px 20px;
@@ -46,32 +42,22 @@
     background: rgba(0,200,255,0.1);
     top: -60px; right: -30px;
   }
-  #scz-gate-icon {
-    font-size: 32px; margin-bottom: 10px; display: block;
-    position: relative; z-index: 1;
-  }
+  #scz-gate-icon { font-size: 32px; margin-bottom: 10px; display: block; position: relative; z-index: 1; }
   #scz-gate-title {
     color: #fff; font-size: 20px; font-weight: 800;
     font-family: 'Segoe UI', system-ui, sans-serif;
-    letter-spacing: -0.01em; margin-bottom: 6px;
-    position: relative; z-index: 1;
+    letter-spacing: -0.01em; margin-bottom: 6px; position: relative; z-index: 1;
   }
   #scz-gate-sub {
     color: rgba(0,200,255,0.9); font-size: 13px;
     font-family: 'Segoe UI', system-ui, sans-serif;
     position: relative; z-index: 1; line-height: 1.4;
   }
-
-  #scz-gate-body {
-    padding: 24px;
-    font-family: 'Segoe UI', system-ui, sans-serif;
-  }
-
+  #scz-gate-body { padding: 24px; font-family: 'Segoe UI', system-ui, sans-serif; }
   .scz-field { margin-bottom: 14px; }
   .scz-label {
     display: block; font-size: 12.5px; font-weight: 600;
-    color: #4a5080; margin-bottom: 5px; letter-spacing: 0.02em;
-    text-transform: uppercase;
+    color: #4a5080; margin-bottom: 5px; letter-spacing: 0.02em; text-transform: uppercase;
   }
   .scz-input {
     width: 100%; border: 1.5px solid #e0e4f0;
@@ -80,14 +66,9 @@
     transition: border-color 0.2s, box-shadow 0.2s;
     font-family: inherit; background: #fafbff;
   }
-  .scz-input:focus {
-    border-color: #1A3CFF;
-    box-shadow: 0 0 0 3px rgba(26,60,255,0.1);
-    background: #fff;
-  }
+  .scz-input:focus { border-color: #1A3CFF; box-shadow: 0 0 0 3px rgba(26,60,255,0.1); background: #fff; }
   .scz-input::placeholder { color: #b0b6d0; }
   .scz-input.error { border-color: #FF3B5C; }
-
   #scz-gate-submit {
     width: 100%; padding: 13px;
     background: linear-gradient(135deg, #1A3CFF, #0A40E0);
@@ -95,18 +76,15 @@
     font-size: 15px; font-weight: 700; cursor: pointer;
     font-family: inherit; letter-spacing: 0.01em;
     transition: opacity 0.2s, transform 0.1s;
-    display: flex; align-items: center; justify-content: center; gap: 8px;
-    margin-top: 4px;
+    display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 4px;
   }
   #scz-gate-submit:hover { opacity: 0.9; transform: translateY(-1px); }
   #scz-gate-submit:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
-
   #scz-gate-note {
     text-align: center; font-size: 11.5px; color: #9ba3c0;
     margin-top: 12px; line-height: 1.5;
     display: flex; align-items: center; justify-content: center; gap: 5px;
   }
-
   #scz-gate-close {
     position: absolute; top: 14px; right: 16px;
     background: rgba(255,255,255,0.15); border: none;
@@ -116,20 +94,10 @@
     transition: background 0.15s; z-index: 2;
   }
   #scz-gate-close:hover { background: rgba(255,255,255,0.25); }
-
-  #scz-success-msg {
-    display: none; text-align: center; padding: 20px 0 8px;
-  }
+  #scz-success-msg { display: none; text-align: center; padding: 20px 0 8px; }
   #scz-success-msg .scz-success-icon { font-size: 40px; margin-bottom: 10px; }
-  #scz-success-msg h3 {
-    color: #1a1f3a; font-size: 17px; margin-bottom: 6px;
-    font-family: 'Segoe UI', system-ui, sans-serif;
-  }
-  #scz-success-msg p {
-    color: #6b7280; font-size: 13px; line-height: 1.5;
-    font-family: 'Segoe UI', system-ui, sans-serif;
-  }
-
+  #scz-success-msg h3 { color: #1a1f3a; font-size: 17px; margin-bottom: 6px; font-family: 'Segoe UI', system-ui, sans-serif; }
+  #scz-success-msg p { color: #6b7280; font-size: 13px; line-height: 1.5; font-family: 'Segoe UI', system-ui, sans-serif; }
   @media (max-width: 440px) {
     #scz-gate-box { border-radius: 16px; }
     #scz-gate-head { padding: 20px 18px 16px; }
@@ -137,7 +105,6 @@
   }
   `;
 
-  // ── INJECT CSS ───────────────────────────────────────────────
   const styleEl = document.createElement('style');
   styleEl.textContent = CSS;
   document.head.appendChild(styleEl);
@@ -173,9 +140,7 @@
             </svg>
             View Live Preview
           </button>
-          <div id="scz-gate-note">
-            🔒 Your info is private. We only use it to contact you.
-          </div>
+          <div id="scz-gate-note">🔒 Your info is private. We only use it to contact you.</div>
         </div>
         <div id="scz-success-msg">
           <div class="scz-success-icon">✅</div>
@@ -217,7 +182,6 @@
     const phone = document.getElementById('scz-fphone').value.trim();
     const email = document.getElementById('scz-femail').value.trim();
 
-    // Validation
     let valid = true;
     if (!name)  { document.getElementById('scz-fname').classList.add('error');  valid = false; }
     else          document.getElementById('scz-fname').classList.remove('error');
@@ -232,7 +196,7 @@
     const timestamp = new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' });
     const lead = { name, phone, email, website: pendingTitle, timestamp, source: 'websites.scalioz.com' };
 
-    // 1. Send to Google Sheets (fire and forget)
+    // Send to Google Sheets (fire and forget)
     if (SHEETS_WEBHOOK) {
       fetch(SHEETS_WEBHOOK, {
         method: 'POST',
@@ -241,13 +205,15 @@
       }).catch(() => {});
     }
 
-    // 2. Show success message
+    // Show success message
     document.getElementById('scz-gate-form').style.display = 'none';
     document.getElementById('scz-success-msg').style.display = 'block';
 
-    // 3. After 2 seconds open preview in new tab and close gate
+    // After 2 seconds open preview in new tab and close gate
     setTimeout(() => {
-      window.open(pendingUrl, '_blank');
+      if (pendingUrl && pendingUrl !== '#' && pendingUrl !== '') {
+        window.open(pendingUrl, '_blank');
+      }
       closeGate();
     }, 2000);
   }
@@ -257,14 +223,12 @@
   overlay.addEventListener('click', (e) => { if (e.target === overlay) closeGate(); });
   document.getElementById('scz-gate-submit').addEventListener('click', handleSubmit);
 
-  // Enter key submits
   ['scz-fname','scz-fphone','scz-femail'].forEach(id => {
     document.getElementById(id).addEventListener('keydown', e => {
       if (e.key === 'Enter') handleSubmit();
     });
   });
 
-  // Clear error on input
   document.getElementById('scz-fname').addEventListener('input', () =>
     document.getElementById('scz-fname').classList.remove('error'));
   document.getElementById('scz-fphone').addEventListener('input', () =>
@@ -277,21 +241,28 @@
       const isPreviewBtn = text.includes('live preview') ||
                            text.includes('preview') ||
                            el.classList.contains('btn-preview') ||
+                           el.classList.contains('card-preview-btn') ||
                            el.dataset.preview;
 
       if (isPreviewBtn && !el.dataset.gated) {
+        // Store the href BEFORE removing it
+        const originalHref = el.getAttribute('href') || el.dataset.href || '';
+        
+        // Skip if no real URL
+        if (!originalHref || originalHref === '#') return;
+
         el.dataset.gated = 'true';
-        const originalHref = el.getAttribute('href') || el.dataset.href || '#';
+        el.dataset.storedHref = originalHref; // save it on the element too
 
         // Find the card title
-        const card = el.closest('[class*="card"], [class*="item"], article, li, div[data-name], div[data-category], div[data-cat]');
-        const titleEl = card ? (card.querySelector('h2, h3, h4, .card-title, [class*="title"], [class*="name"]')) : null;
+        const card = el.closest('.site-card, .website-card, [class*="card"], article, li');
+        const titleEl = card ? card.querySelector('.card-title, h2, h3, h4, [class*="title"]') : null;
         const websiteTitle = titleEl ? titleEl.textContent.trim() : 'Scalioz Website';
 
         el.addEventListener('click', (e) => {
           e.preventDefault();
           e.stopPropagation();
-          openGate(originalHref, websiteTitle);
+          openGate(el.dataset.storedHref, websiteTitle);
         });
 
         if (el.tagName === 'A') el.removeAttribute('href');
@@ -299,13 +270,11 @@
     });
   }
 
-  // Run after DOM fully loads and re-run after any dynamic rendering
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', attachToButtons);
   } else {
     attachToButtons();
   }
-  // Also run after a short delay in case cards render dynamically
   setTimeout(attachToButtons, 1000);
   setTimeout(attachToButtons, 2500);
 
