@@ -1,39 +1,43 @@
-// SCALIOZ WEBSITES — Smart Sales Chatbot (Rule-based + Gemini AI)
+// SCALIOZ WEBSITES — Smart Sales Chatbot
 // websites.scalioz.com | Scalioz Systems, Chennai
+
 (function () {
   'use strict';
+
   const WA = '919043616100';
-  // ── Smart responses per service ──────────────────────────────
+  const SHEETS_WEBHOOK = 'https://script.google.com/macros/s/AKfycbyHwmPZN0NON2RZK7oPHJE2bG8J6cUxTgkNzWeWum5uBFFvlDAsoYQkCP3d1tWgKm4g4g/exec';
+
+  // ── Service flows — NO pricing shown ────────────────────────
   const FLOWS = {
     website: {
-      intro: "🌐 Great choice! We build premium websites in 3–5 days.\n\nWe've built for Haj & Umrah travel, clinics, real estate, schools, restaurants and more — with AI chatbot, WhatsApp, and Razorpay built in.\n\nPricing: ₹499/mo | ₹3,999/yr | ₹9,999 lifetime (+ 18% GST)\n\nWhat type of business is the website for?",
-      qrs: ['🕌 Haj / Umrah Travel','🏥 Clinic / Healthcare','🏠 Real Estate','🎓 Education','💼 Other Business']
+      intro: "🌐 Great choice! We build premium, fully customised websites for Indian businesses.\n\nWe've built for Haj & Umrah travel, clinics, real estate, schools, restaurants and more — with AI chatbot, WhatsApp integration, and payment gateway built in.\n\nWhat type of business is the website for?",
+      qrs: ['🕌 Haj / Umrah Travel','🏥 Clinic / Healthcare','🏠 Real Estate','🎓 Education','🍽️ Restaurant / Retail','💼 Other Business']
     },
     whatsapp: {
-      intro: "💬 Excellent! Our WhatsApp Automation helps you:\n\n✓ Auto-reply to incoming messages 24/7\n✓ Send bulk campaigns to your customer list\n✓ Qualify leads automatically via WhatsApp\n✓ Integrate with your CRM or Google Sheets\n✓ WhatsApp chatbot for your business\n\nWhat do you need it for?",
+      intro: "💬 Excellent! Our WhatsApp Automation helps you:\n\n✓ Auto-reply to incoming messages 24/7\n✓ Send follow-up sequences to leads\n✓ Qualify leads automatically via WhatsApp\n✓ Integrate with your CRM or Google Sheets\n✓ Build a full WhatsApp chatbot for your business\n\nWhat do you need it for?",
       qrs: ['📢 Bulk Campaigns','🤖 Auto-Reply Bot','🔗 CRM Integration','📋 Lead Follow-up']
     },
     ai: {
-      intro: "🤖 We build custom AI solutions:\n\n✓ AI chatbots (like this one!) for your website\n✓ WhatsApp AI agents for sales & support\n✓ Lead qualification bots\n✓ AI agents that book appointments, answer FAQs, handle orders\n✓ Integration with your existing systems\n\nWhat are you trying to automate?",
+      intro: "🤖 We build custom AI solutions:\n\n✓ AI chatbots for your website\n✓ WhatsApp AI agents for sales & support\n✓ Lead qualification bots\n✓ AI agents that book appointments and handle enquiries\n✓ Integration with your existing systems\n\nWhat are you trying to automate?",
       qrs: ['💬 Website Chatbot','📱 WhatsApp AI Bot','📅 Appointment Booking','🛒 Order / Sales Bot']
     },
     leads: {
-      intro: "📈 Our Lead Generation Systems deliver real buyers:\n\n✓ High-converting landing pages\n✓ Google & Facebook Ads campaigns\n✓ Lead capture forms with WhatsApp follow-up\n✓ CRM setup and automation\n✓ End-to-end sales pipeline\n\nWhat industry are you in?",
+      intro: "📈 Our Lead Generation Systems deliver real, qualified buyers:\n\n✓ High-converting landing pages\n✓ Google & Facebook Ads campaigns\n✓ Lead capture forms with WhatsApp follow-up\n✓ CRM setup and automation\n✓ End-to-end sales pipeline\n\nWhat industry are you in?",
       qrs: ['🏥 Healthcare','🏠 Real Estate','🏗️ Construction','🎓 Education','🛒 Retail / eCommerce']
     },
     tools: {
-      intro: "🛠️ 35 ready-to-use business tools for Healthcare, Real Estate, Construction & Education.\n\nEach tool is a powerful calculator or dashboard — just open and use, no setup needed.\n\nPricing: ₹499/mo | ₹3,999/yr | ₹9,999 lifetime (+ 18% GST)\n\nWhich industry are you in?",
+      intro: "🛠️ We have 35 ready-to-use business tools for Healthcare, Real Estate, Construction and Education.\n\nEach tool is a powerful calculator or dashboard — just open and use, no setup needed.\n\nWhich industry are you in?",
       qrs: ['🏥 Healthcare','🏠 Real Estate','🏗️ Construction','🎓 Education']
     },
     marketing: {
-      intro: "📊 Our Digital Marketing services:\n\n✓ SEO — rank on Google for your city & niche\n✓ Google Ads / PPC — instant targeted leads\n✓ Social Media (Facebook, Instagram, LinkedIn)\n✓ Content Marketing — blogs, product descriptions\n✓ Google Business Profile optimisation\n\nWhat's your marketing goal?",
+      intro: "📊 Our Digital Marketing services:\n\n✓ SEO — rank on Google for your city & niche\n✓ Google Ads / PPC — instant targeted leads\n✓ Social Media (Facebook, Instagram, LinkedIn)\n✓ Content Marketing — blogs, product descriptions\n✓ Google Business Profile optimisation\n\nWhat's your main marketing goal?",
       qrs: ['🔍 Rank on Google (SEO)','💰 Run Google Ads','📱 Social Media Growth','📍 Local Business Visibility']
     }
   };
 
-  // ── Lead qualification state ─────────────────────────────────
+  // ── Lead state ───────────────────────────────────────────────
   let leadData = { service: '', detail: '', name: '', phone: '', business: '' };
-  let stage = 'welcome'; // welcome → service → detail → qualify_name → qualify_phone → done
+  let stage = 'welcome';
 
   // ── CSS ──────────────────────────────────────────────────────
   document.head.insertAdjacentHTML('beforeend',`<style>
@@ -71,9 +75,10 @@
   @media(max-width:420px){#swin{width:calc(100vw - 16px);right:8px}#sf{bottom:16px;right:16px}}
   </style>`);
 
-  // ── HTML ──────────────────────────────────────────────────────
-  const root=document.createElement('div');root.id='sw';
-  root.innerHTML=`
+  // ── HTML ─────────────────────────────────────────────────────
+  const root = document.createElement('div');
+  root.id = 'sw';
+  root.innerHTML = `
   <button id="sf"><span id="sb2">1</span>
     <span id="sfi"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span>
     <span id="sfx"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span>
@@ -85,139 +90,164 @@
   </div>`;
   document.body.appendChild(root);
 
-  const fab=document.getElementById('sf'),win=document.getElementById('swin'),
-    msgs=document.getElementById('sms'),inp=document.getElementById('sinp'),
-    ssb=document.getElementById('ssb'),bdg=document.getElementById('sb2');
-  let isOpen=false;
-  const scroll=()=>msgs.scrollTop=msgs.scrollHeight;
+  const fab = document.getElementById('sf'),
+        win = document.getElementById('swin'),
+        msgs = document.getElementById('sms'),
+        inp = document.getElementById('sinp'),
+        ssb = document.getElementById('ssb'),
+        bdg = document.getElementById('sb2');
+  let isOpen = false;
 
-  function botMsg(text,qrs=[]){
-    const r=document.createElement('div');r.className='sr2 b';
-    const b=document.createElement('div');b.className='sb3';
-    b.innerHTML=text.replace(/\n/g,'<br>');r.appendChild(b);
-    if(qrs.length){
-      const w=document.createElement('div');w.className='sqw';
-      qrs.forEach(l=>{const btn=document.createElement('button');btn.className='sqb';btn.textContent=l;
-        btn.onclick=()=>{w.remove();send(l);};w.appendChild(btn);});r.appendChild(w);}
-    msgs.appendChild(r);scroll();
+  const scroll = () => msgs.scrollTop = msgs.scrollHeight;
+
+  function botMsg(text, qrs = []) {
+    const r = document.createElement('div'); r.className = 'sr2 b';
+    const b = document.createElement('div'); b.className = 'sb3';
+    b.innerHTML = text.replace(/\n/g, '<br>'); r.appendChild(b);
+    if (qrs.length) {
+      const w = document.createElement('div'); w.className = 'sqw';
+      qrs.forEach(l => {
+        const btn = document.createElement('button'); btn.className = 'sqb'; btn.textContent = l;
+        btn.onclick = () => { w.remove(); send(l); }; w.appendChild(btn);
+      }); r.appendChild(w);
+    }
+    msgs.appendChild(r); scroll();
   }
 
-  function userMsg(t){
-    const r=document.createElement('div');r.className='sr2 u';
-    r.innerHTML=`<div class="sb3">${t.replace(/</g,'&lt;')}</div>`;
-    msgs.appendChild(r);scroll();
+  function userMsg(t) {
+    const r = document.createElement('div'); r.className = 'sr2 u';
+    r.innerHTML = `<div class="sb3">${t.replace(/</g, '&lt;')}</div>`;
+    msgs.appendChild(r); scroll();
   }
 
-  function showWA(){
-    const d=document.createElement('div');d.className='sdv';d.textContent='Connect with us';msgs.appendChild(d);
-    const r=document.createElement('div');r.className='sr2 b';
-    const svc=leadData.service||'digital services';
-    const nm=leadData.name?` ${leadData.name}`:'';
-    const msg=encodeURIComponent(`Hi Scalioz!${nm ? '\n\nName: '+leadData.name : ''}\nBusiness: ${leadData.business||'Not specified'}\nInterested in: ${svc}\nDetails: ${leadData.detail||'—'}\n\nPlease contact me for more info.`);
-    const btn=document.createElement('button');btn.className='swa2';
-    btn.innerHTML=`<svg width="20" height="20" viewBox="0 0 24 24" fill="#fff"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 2C6.477 2 2 6.477 2 12c0 1.89.518 3.66 1.42 5.18L2 22l4.91-1.4A9.96 9.96 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2z"/></svg> Chat on WhatsApp — Free Consultation`;
-    btn.onclick=()=>window.open(`https://wa.me/${WA}?text=${msg}`,'_blank');
-    r.appendChild(btn);msgs.appendChild(r);scroll();
+  function submitLead() {
+    const timestamp = new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' });
+    const lead = {
+      name: leadData.name,
+      phone: leadData.phone,
+      email: '',
+      website: leadData.business,
+      timestamp: timestamp,
+      source: 'websites.scalioz.com (chatbot) — ' + leadData.service + ' — ' + leadData.detail
+    };
+    fetch(SHEETS_WEBHOOK, {
+      method: 'POST',
+      mode: 'no-cors',
+      body: JSON.stringify(lead)
+    }).catch(() => {});
   }
 
-  function detectService(t){
-    const s=t.toLowerCase();
-    if(s.includes('website')||s.includes('site')||s.includes('web')||s.includes('haj')||s.includes('clinic')||s.includes('real estate')||s.includes('school')) return 'website';
-    if(s.includes('whatsapp')||s.includes('automation')||s.includes('bulk')||s.includes('campaign')||s.includes('message')) return 'whatsapp';
-    if(s.includes('ai')||s.includes('bot')||s.includes('agent')||s.includes('chatbot')||s.includes('app')) return 'ai';
-    if(s.includes('lead')||s.includes('generation')||s.includes('ads')||s.includes('google ads')||s.includes('facebook')) return 'leads';
-    if(s.includes('tool')||s.includes('calculator')||s.includes('dashboard')||s.includes('healthcare')||s.includes('construction')) return 'tools';
-    if(s.includes('marketing')||s.includes('seo')||s.includes('social media')||s.includes('digital marketing')) return 'marketing';
+  function showWA() {
+    const d = document.createElement('div'); d.className = 'sdv'; d.textContent = 'Connect with us'; msgs.appendChild(d);
+    const r = document.createElement('div'); r.className = 'sr2 b';
+    const msg = encodeURIComponent(`Hi Scalioz!\n\nName: ${leadData.name}\nBusiness: ${leadData.business || 'Not specified'}\nInterested in: ${leadData.service}\nDetails: ${leadData.detail || '—'}\nPhone: ${leadData.phone}\n\nPlease contact me.`);
+    const btn = document.createElement('button'); btn.className = 'swa2';
+    btn.innerHTML = `<svg width="20" height="20" viewBox="0 0 24 24" fill="#fff"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 2C6.477 2 2 6.477 2 12c0 1.89.518 3.66 1.42 5.18L2 22l4.91-1.4A9.96 9.96 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2z"/></svg> Chat on WhatsApp — Free Consultation`;
+    btn.onclick = () => window.open(`https://wa.me/${WA}?text=${msg}`, '_blank');
+    r.appendChild(btn); msgs.appendChild(r); scroll();
+  }
+
+  function detectService(t) {
+    const s = t.toLowerCase();
+    if (s.includes('website') || s.includes('site') || s.includes('web') || s.includes('haj') || s.includes('umrah') || s.includes('clinic') || s.includes('real estate') || s.includes('school') || s.includes('restaurant')) return 'website';
+    if (s.includes('whatsapp') || s.includes('automation') || s.includes('bulk') || s.includes('campaign') || s.includes('message')) return 'whatsapp';
+    if (s.includes('ai') || s.includes('bot') || s.includes('agent') || s.includes('chatbot') || s.includes('app')) return 'ai';
+    if (s.includes('lead') || s.includes('generation') || s.includes('ads') || s.includes('google ads') || s.includes('facebook')) return 'leads';
+    if (s.includes('tool') || s.includes('calculator') || s.includes('dashboard') || s.includes('healthcare') || s.includes('construction')) return 'tools';
+    if (s.includes('marketing') || s.includes('seo') || s.includes('social media') || s.includes('digital marketing')) return 'marketing';
     return null;
   }
 
-  function send(text){
-    text=(text||'').trim();if(!text)return;
-    userMsg(text);inp.value='';inp.style.height='auto';
+  function send(text) {
+    text = (text || '').trim(); if (!text) return;
+    userMsg(text); inp.value = ''; inp.style.height = 'auto';
 
-    const t=text.toLowerCase();
-
-    // Stage: welcome → detect service
-    if(stage==='welcome'){
-      const svc=detectService(text);
-      if(svc){
-        leadData.service=svc;
-        stage='detail';
-        setTimeout(()=>botMsg(FLOWS[svc].intro, FLOWS[svc].qrs),400);
+    // welcome → detect service
+    if (stage === 'welcome') {
+      const svc = detectService(text);
+      if (svc) {
+        leadData.service = svc;
+        stage = 'detail';
+        setTimeout(() => botMsg(FLOWS[svc].intro, FLOWS[svc].qrs), 400);
       } else {
-        setTimeout(()=>botMsg("We offer Website Development, WhatsApp Automation, Custom AI Agents, Lead Generation, Business Tools and Digital Marketing.\n\nWhich of these interests you?",
-          ['🌐 Website Development','💬 WhatsApp Automation','🤖 Custom AI Agent','📈 Lead Generation','🛠️ Business Tools','📊 Digital Marketing']),400);
+        setTimeout(() => botMsg("We offer Website Development, WhatsApp Automation, Custom AI Agents, Lead Generation, Business Tools and Digital Marketing.\n\nWhich of these interests you?",
+          ['🌐 Website Development', '💬 WhatsApp Automation', '🤖 Custom AI Agent', '📈 Lead Generation', '🛠️ Business Tools', '📊 Digital Marketing']), 400);
       }
       return;
     }
 
-    // Stage: detail → capture what they need, then qualify
-    if(stage==='detail'){
-      leadData.detail=text;
-      stage='qualify_name';
-      setTimeout(()=>botMsg("Perfect! 👍 To connect you with our team, may I know your name?"),400);
+    // detail → ask name
+    if (stage === 'detail') {
+      leadData.detail = text;
+      stage = 'qualify_name';
+      setTimeout(() => botMsg("Perfect! 👍 To connect you with our team, may I know your name?"), 400);
       return;
     }
 
-    // Stage: qualify name
-    if(stage==='qualify_name'){
-      leadData.name=text;
-      stage='qualify_phone';
-      setTimeout(()=>botMsg(`Nice to meet you, ${text}! 😊 What's your WhatsApp number so our team can reach you?`),400);
+    // name → ask phone
+    if (stage === 'qualify_name') {
+      leadData.name = text;
+      stage = 'qualify_phone';
+      setTimeout(() => botMsg(`Nice to meet you, ${text}! 😊\n\nWhat's your WhatsApp number so our team can reach you?`), 400);
       return;
     }
 
-    // Stage: qualify phone
-    if(stage==='qualify_phone'){
-      leadData.phone=text;
-      stage='qualify_business';
-      setTimeout(()=>botMsg("And what's your business name?"),400);
+    // phone → ask business name
+    if (stage === 'qualify_phone') {
+      leadData.phone = text;
+      stage = 'qualify_business';
+      setTimeout(() => botMsg("And what's your business name?"), 400);
       return;
     }
 
-    // Stage: qualify business → done
-    if(stage==='qualify_business'){
-      leadData.business=text;
-      stage='done';
-      setTimeout(()=>{
-        botMsg(`Thank you, ${leadData.name}! 🙏\n\nHere's a summary of your enquiry:\n📌 Service: ${leadData.service}\n🏢 Business: ${leadData.business}\n📞 Phone: ${leadData.phone}\n\nOur team will reach out to you shortly. You can also connect with us directly on WhatsApp right now:`);
+    // business → done, submit lead
+    if (stage === 'qualify_business') {
+      leadData.business = text;
+      stage = 'done';
+      submitLead();
+      setTimeout(() => {
+        botMsg(`Thank you, ${leadData.name}! 🙏\n\nWe've received your enquiry and our team will reach out to you shortly on WhatsApp.\n\nYou can also connect with us directly right now:`);
         setTimeout(showWA, 600);
-      },400);
+      }, 400);
       return;
     }
 
-    // Stage: done — re-engage
-    if(stage==='done'){
-      setTimeout(()=>showWA(),400);
+    // done → show WA again
+    if (stage === 'done') {
+      setTimeout(() => showWA(), 400);
       return;
     }
 
-    // Fallback: re-detect service
-    const svc=detectService(text);
-    if(svc){
-      leadData.service=svc;
-      stage='detail';
-      setTimeout(()=>botMsg(FLOWS[svc].intro, FLOWS[svc].qrs),400);
+    // fallback
+    const svc = detectService(text);
+    if (svc) {
+      leadData.service = svc;
+      stage = 'detail';
+      setTimeout(() => botMsg(FLOWS[svc].intro, FLOWS[svc].qrs), 400);
     } else {
-      setTimeout(()=>botMsg("I'm here to help! 😊 We offer:",
-        ['🌐 Website Development','💬 WhatsApp Automation','🤖 Custom AI Agent','📈 Lead Generation']),400);
+      setTimeout(() => botMsg("I'm here to help! 😊 We offer:",
+        ['🌐 Website Development', '💬 WhatsApp Automation', '🤖 Custom AI Agent', '📈 Lead Generation']), 400);
     }
   }
 
-  function toggle(){
-    isOpen=!isOpen;win.classList.toggle('open',isOpen);fab.classList.toggle('open',isOpen);
-    if(isOpen){bdg.style.display='none';inp.focus();if(!msgs.children.length)welcome();}
+  function toggle() {
+    isOpen = !isOpen;
+    win.classList.toggle('open', isOpen);
+    fab.classList.toggle('open', isOpen);
+    if (isOpen) { bdg.style.display = 'none'; inp.focus(); if (!msgs.children.length) welcome(); }
   }
 
-  function welcome(){
-    stage='welcome';
+  function welcome() {
+    stage = 'welcome';
+    leadData = { service: '', detail: '', name: '', phone: '', business: '' };
     botMsg("👋 Hi! Welcome to Scalioz Systems, Chennai!\n\nWe build digital solutions for Indian businesses — Websites, WhatsApp Automation, AI Agents, Lead Generation & more.\n\nWhat are you looking for?",
-      ['🌐 Website Development','💬 WhatsApp Automation','🤖 Custom App / AI Agent','📈 Lead Generation','🛠️ Business Tools','📊 Digital Marketing']);
+      ['🌐 Website Development', '💬 WhatsApp Automation', '🤖 Custom AI Agent', '📈 Lead Generation', '🛠️ Business Tools', '📊 Digital Marketing']);
   }
 
-  fab.addEventListener('click',toggle);
-  ssb.addEventListener('click',()=>send(inp.value));
-  inp.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();send(inp.value);}});
-  inp.addEventListener('input',()=>{inp.style.height='auto';inp.style.height=Math.min(inp.scrollHeight,88)+'px';});
-  setTimeout(()=>{if(!isOpen){bdg.textContent='1';bdg.style.display='flex';}},8000);
+  fab.addEventListener('click', toggle);
+  ssb.addEventListener('click', () => send(inp.value));
+  inp.addEventListener('keydown', e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); send(inp.value); } });
+  inp.addEventListener('input', () => { inp.style.height = 'auto'; inp.style.height = Math.min(inp.scrollHeight, 88) + 'px'; });
+  setTimeout(() => { if (!isOpen) { bdg.textContent = '1'; bdg.style.display = 'flex'; } }, 8000);
+
 })();
