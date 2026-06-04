@@ -8,10 +8,6 @@
   'use strict';
 
   // ── CONFIG — edit these ──────────────────────────────────────
-  const WA_NUMBER = '919043616100';
-
-  // Optional: Google Sheets webhook (paste your Apps Script URL here)
-  // Leave empty string '' to skip Google Sheets and use WhatsApp only
   const SHEETS_WEBHOOK = 'https://script.google.com/macros/s/AKfycbyHwmPZN0NON2RZK7oPHJE2bG8J6cUxTgkNzWeWum5uBFFvlDAsoYQkCP3d1tWgKm4g4g/exec';
 
   // ── CSS ──────────────────────────────────────────────────────
@@ -236,7 +232,7 @@
     const timestamp = new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' });
     const lead = { name, phone, email, website: pendingTitle, timestamp, source: 'websites.scalioz.com' };
 
-    // 2. Send to Google Sheets (if webhook configured)
+    // 1. Send to Google Sheets (fire and forget)
     if (SHEETS_WEBHOOK) {
       fetch(SHEETS_WEBHOOK, {
         method: 'POST',
@@ -245,13 +241,14 @@
       }).catch(() => {});
     }
 
-    // 3. Show success message
+    // 2. Show success message
     document.getElementById('scz-gate-form').style.display = 'none';
     document.getElementById('scz-success-msg').style.display = 'block';
 
-    // 4. After 2 seconds redirect current page to the portfolio site
+    // 3. After 2 seconds open preview in new tab and close gate
     setTimeout(() => {
-      window.location.href = pendingUrl;
+      window.open(pendingUrl, '_blank');
+      closeGate();
     }, 2000);
   }
 
@@ -285,9 +282,10 @@
       if (isPreviewBtn && !el.dataset.gated) {
         el.dataset.gated = 'true';
         const originalHref = el.getAttribute('href') || el.dataset.href || '#';
+
         // Find the card title
-        const card = el.closest('[class*="card"], [class*="item"], article, li, div[data-name]');
-        const titleEl = card ? (card.querySelector('h2, h3, h4, [class*="title"], [class*="name"]')) : null;
+        const card = el.closest('[class*="card"], [class*="item"], article, li, div[data-name], div[data-category], div[data-cat]');
+        const titleEl = card ? (card.querySelector('h2, h3, h4, .card-title, [class*="title"], [class*="name"]')) : null;
         const websiteTitle = titleEl ? titleEl.textContent.trim() : 'Scalioz Website';
 
         el.addEventListener('click', (e) => {
