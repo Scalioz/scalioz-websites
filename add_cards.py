@@ -29,7 +29,7 @@ NEW_CARDS = '''
                         </div>
                         <div class="card-actions">
                             <a href="https://scalioz.github.io/wanderlust/" target="_blank" class="btn-preview" data-preview="true">🔗 Live Preview →</a>
-                            <a href="https://wa.me/919043616100?text=Hi%20Scalioz!%20I%20want%20a%20travel%20website%20like%20Wanderlust." target="_blank" class="btn-whatsapp">💬 Get This</a>
+                            <a href="https://wa.me/919043946087?text=Hi%20Scalioz!%20I%20want%20a%20travel%20website%20like%20Wanderlust." target="_blank" class="btn-whatsapp">💬 Get This</a>
                         </div>
                     </div>
                 </div>
@@ -58,7 +58,7 @@ NEW_CARDS = '''
                         </div>
                         <div class="card-actions">
                             <a href="https://scalioz.github.io/prestige-realty/" target="_blank" class="btn-preview" data-preview="true">🔗 Live Preview →</a>
-                            <a href="https://wa.me/919043616100?text=Hi%20Scalioz!%20I%20want%20a%20real%20estate%20website%20like%20Prestige%20Realty." target="_blank" class="btn-whatsapp">💬 Get This</a>
+                            <a href="https://wa.me/919043946087?text=Hi%20Scalioz!%20I%20want%20a%20real%20estate%20website%20like%20Prestige%20Realty." target="_blank" class="btn-whatsapp">💬 Get This</a>
                         </div>
                     </div>
                 </div>
@@ -87,7 +87,7 @@ NEW_CARDS = '''
                         </div>
                         <div class="card-actions">
                             <a href="https://scalioz.github.io/pearl-dental/" target="_blank" class="btn-preview" data-preview="true">🔗 Live Preview →</a>
-                            <a href="https://wa.me/919043616100?text=Hi%20Scalioz!%20I%20want%20a%20dental%20clinic%20website%20like%20Pearl%20Dental." target="_blank" class="btn-whatsapp">💬 Get This</a>
+                            <a href="https://wa.me/919043946087?text=Hi%20Scalioz!%20I%20want%20a%20dental%20clinic%20website%20like%20Pearl%20Dental." target="_blank" class="btn-whatsapp">💬 Get This</a>
                         </div>
                     </div>
                 </div>'''
